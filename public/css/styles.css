@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*,
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #e4e9fd;
+    min-height: 1000px;
+    font-family: 'Inter', sans-serif;
+    background-image: -webkit-linear-gradient(68deg, #a683e3 50%, #e4e9fd 50%);
+}
+
+.date {
+    max-width: 400px;
+    margin: 50px auto;
+    border: none;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+    border-radius: 0.5rem;
+    background-color: #A683E3;
+    text-align: center;
+}
+
+.date h1 {
+    padding: 10px;
+    color: aliceblue;
+}
+
+.list {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: aliceblue;
+    border-radius: 0.5rem;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+}
+
+.item {
+    display: flex;
+    min-height: 70px;
+    align-items: center;
+    border-bottom: 1px solid #d3d2d2;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+input:checked+p {
+    text-decoration: line-through;
+    text-decoration-color: #A683E3;
+}
+
+input[type="checkbox"] {
+    margin: 20px;
+}
+
+p {
+    margin: 0;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 300;
+    color: #00204a;
+}
+
+.form {
+    margin-left: 20px;
+    text-align: center;
+}
+
+.btn {
+    min-height: 50px;
+    width: 50px;
+    margin-top: 5px;
+    font-size: 30px;
+    border-radius: 50%;
+    border-color: transparent;
+    background-color: #a683e3;
+    color: #ffffff;
+    border-width: 0;
+}
+
+input[type="text"] {
+    text-align: center;
+    height: 60px;
+    top: 10px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 200;
+    width: 313px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 0 -3px 0 0 #A683E3;
+}
+
+::placeholder {
+    color: grey;
+    opacity: 1;
+}
+
+.love {
+    text-align: center;
+    padding: 3rem 0 2rem 0;
+}
