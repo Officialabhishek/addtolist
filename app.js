@@ -1,8 +1,11 @@
 const express = require("express");
+
 const bodyParser = require("body-parser");
+
 const mongoose = require("mongoose");
 
 const app = express();
+
 mongoose.connect('mongodb+srv://admin-abhishek:Test-0110@cluster0.0ioim2r.mongodb.net/todoListDB');
 
 app.set('view engine', 'ejs');
@@ -16,7 +19,6 @@ const mySchema = new mongoose.Schema({
 })
 
 const Mymodel = mongoose.model('Item', mySchema);
-
 
 app.get("/", async (req, res) => {
 
@@ -33,37 +35,38 @@ app.get("/", async (req, res) => {
 
     var currDate = currday + ", " + currmm + " " + dd; //current Date
 
-     let foundItem = await Mymodel.find({});
-            res.render('list', {
-                date: currDate,
-                newItem: foundItem
-            });
-
-
+    let foundItem = await Mymodel.find({});
+    res.render('list', {
+        date: currDate,
+        newItem: foundItem
+    });
 });
 
-
 app.post("/", async (req, res) => {
+
     let itemData = new Mymodel({
         item: req.body.item
     });
-    console.log(itemData);
 
     await itemData.save();
+
     res.redirect("/");
 });
 
-app.post("/delete", async (req,res) => {
+app.post("/delete", async (req, res) => {
+
     const checkedItem = req.body.delete;
 
-    console.log(checkedItem);
     await Mymodel.findByIdAndRemove(checkedItem);
+
     console.log("successfully deleted the item");
 
     res.redirect("/");
 
 });
 
-app.listen(5000, () => {
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
     console.log("server is listening to port 5000.");
 });
