@@ -1,18 +1,24 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const app = express();
+mongoose.connect('mongodb://127.0.0.1:27017/todoListDB');
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-var items = [];
-var checkBox;
+const mySchema = new mongoose.Schema({
+    item: String
+})
 
-app.get("/", (req, res) => {
+const Mymodel = mongoose.model('Item', mySchema);
+
+
+app.get("/", async (req, res) => {
 
     var date = new Date();
     var day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -21,32 +27,29 @@ app.get("/", (req, res) => {
     var currmm = mm[date.getMonth()];
     var dd = date.getDate();
 
-    if(dd < 10) {
+    if (dd < 10) {
         dd = '0' + dd;
     }
 
     var currDate = currday + ", " + currmm + " " + dd; //current Date
 
-    res.render('list', {
-        date: currDate,
-        newItem: items
-    });
+     let foundItem = await Mymodel.find({});
+            res.render('list', {
+                date: currDate,
+                newItem: foundItem
+            });
+
+
 });
 
 
-app.post("/", (req, res) => {
- var addItem = req.body.item;
- checkbox = req.body.delete;
-  
- if(addItem == "") {
-     addItem = "Blank item";
- } else {
-    if(checkBox) {
-        items.pop(addItem);
-    }
-    items.push(addItem);
- }
-   
+app.post("/", async (req, res) => {
+    let itemData = new Mymodel({
+        item: req.body.item
+    });
+    console.log(itemData);
+
+    await itemData.save();
     res.redirect("/");
 });
 
