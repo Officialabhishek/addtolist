@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const app = express();
-mongoose.connect('mongodb://127.0.0.1:27017/todoListDB');
+mongoose.connect('mongodb+srv://admin-abhishek:Test-0110@cluster0.0ioim2r.mongodb.net/todoListDB');
 
 app.set('view engine', 'ejs');
 
@@ -53,7 +53,17 @@ app.post("/", async (req, res) => {
     res.redirect("/");
 });
 
+app.post("/delete", async (req,res) => {
+    const checkedItem = req.body.delete;
+
+    console.log(checkedItem);
+    await Mymodel.findByIdAndRemove(checkedItem);
+    console.log("successfully deleted the item");
+
+    res.redirect("/");
+
+});
+
 app.listen(5000, () => {
     console.log("server is listening to port 5000.");
 });
-

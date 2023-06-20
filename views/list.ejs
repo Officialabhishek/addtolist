@@ -17,16 +17,16 @@
         </div>
         <div class="list">
 
-            <% newItem.forEach((item) => { %>
-                <div class="item">
-                    <input type="checkbox" name="delete">
-                    <p>
-                        <%= item.item %>
-                    </p>
-                </div>
+            <% newItem.forEach((item)=> { %>
+                <form action="/delete" method="post">
+                    <div class="item">
+                        <input type="checkbox" name="delete" value="<%= item._id %>" onchange="this.form.submit()">
+                        <p>
+                            <%= item.item %>
+                        </p>
+                    </div>
+                </form>
                 <% }) %>
-
-
                     <form class="form" action="/" method="post">
                         <input type="text" name="item" placeholder="Add Item" autocomplete="off">
                         <button class="btn" type="submit">+</button>
