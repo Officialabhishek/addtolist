@@ -67,6 +67,7 @@ app.get("/signup", (req, res) => {
 app.post("/signup", (req, res) => {
 
     bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
+               
         let newUser = new Mymodel2({
             email: req.body.email,
             password: hash
@@ -81,6 +82,7 @@ app.post("/signup", (req, res) => {
 });
 
 app.post("/signin", async (req, res) => {
+
     const checkEmail = req.body.email;
     const checkPassword = req.body.password;
 
@@ -88,12 +90,14 @@ app.post("/signin", async (req, res) => {
         const foundNewUser = await Mymodel2.findOne({email: checkEmail});
     
         bcrypt.compare(checkPassword, foundNewUser.password, function(err, result) {
+
             if(result === true) {
                 res.redirect("/list");
             } 
         });
 
     } catch (error) {
+
         console.log("error is :" + error);
     }  
 });
