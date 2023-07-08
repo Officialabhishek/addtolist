@@ -72,6 +72,25 @@ app.post("/signup", async (req, res) => {
     res.redirect("/list");
 });
 
+app.post("/signin", async (req, res) => {
+    const checkEmail = req.body.email;
+    const checkPassword = req.body.password;
+
+    try {
+        const foundNewUser = await Mymodel2.findOne({email: checkEmail});
+    
+    
+        if(foundNewUser.password === checkPassword) {
+            res.redirect("/list");
+        } 
+        res.redirect("/signup");
+    } catch (error) {
+        console.log("error is :" + error);
+    }
+
+    
+});
+
 app.post("/list", async (req, res) => {
 
     let itemData = new Mymodel({
