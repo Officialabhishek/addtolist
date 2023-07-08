@@ -16,11 +16,22 @@ app.use(express.static("public"));
 
 const mySchema = new mongoose.Schema({
     item: String
-})
+});
+
+const mySchema2 = new mongoose.Schema({
+    email: String,
+    password: String
+});
 
 const Mymodel = mongoose.model('Item', mySchema);
 
-app.get("/", async (req, res) => {
+const Mymodel2 = mongoose.model('user', mySchema2);
+
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
+app.get("/list", async (req, res) => {
 
     var date = new Date();
     var day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -33,7 +44,7 @@ app.get("/", async (req, res) => {
         dd = '0' + dd;
     }
 
-    var currDate = currday + ", " + currmm + " " + dd; //current Date
+    var currDate = currday + ", " + currmm + " " + dd;
 
     let foundItem = await Mymodel.find({});
     res.render('list', {
@@ -42,7 +53,26 @@ app.get("/", async (req, res) => {
     });
 });
 
-app.post("/", async (req, res) => {
+app.get("/signin", (req, res) => {
+    res.render("signin");
+});
+
+app.get("/signup", (req, res) => {
+    res.render("signup");
+});
+
+app.post("/signup", async (req, res) => {
+    let newUser = new Mymodel2({
+        email: req.body.email,
+        password: req.body.password
+    });
+
+    await newUser.save();
+
+    res.redirect("/list");
+});
+
+app.post("/list", async (req, res) => {
 
     let itemData = new Mymodel({
         item: req.body.item
@@ -50,7 +80,7 @@ app.post("/", async (req, res) => {
 
     await itemData.save();
 
-    res.redirect("/");
+    res.redirect("/list");
 });
 
 app.post("/delete", async (req, res) => {
@@ -61,7 +91,7 @@ app.post("/delete", async (req, res) => {
 
     console.log("successfully deleted the item");
 
-    res.redirect("/");
+    res.redirect("/list");
 
 });
 
