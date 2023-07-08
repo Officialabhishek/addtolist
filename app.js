@@ -64,15 +64,20 @@ app.get("/signup", (req, res) => {
     res.render("signup");
 });
 
-app.post("/signup", async (req, res) => {
-    let newUser = new Mymodel2({
-        email: req.body.email,
-        password: req.body.password
+app.post("/signup", (req, res) => {
+
+    bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
+        let newUser = new Mymodel2({
+            email: req.body.email,
+            password: hash
+        });
+    
+        await newUser.save();
+    
+        res.redirect("/list");
+
     });
-
-    await newUser.save();
-
-    res.redirect("/list");
+    
 });
 
 app.post("/signin", async (req, res) => {
@@ -82,16 +87,15 @@ app.post("/signin", async (req, res) => {
     try {
         const foundNewUser = await Mymodel2.findOne({email: checkEmail});
     
-    
-        if(foundNewUser.password === checkPassword) {
-            res.redirect("/list");
-        } 
-        res.redirect("/signup");
+        bcrypt.compare(checkPassword, foundNewUser.password, function(err, result) {
+            if(result === true) {
+                res.redirect("/list");
+            } 
+        });
+
     } catch (error) {
         console.log("error is :" + error);
-    }
-
-    
+    }  
 });
 
 app.post("/list", async (req, res) => {
