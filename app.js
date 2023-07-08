@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 const app = express();
 
 mongoose.connect('mongodb+srv://admin-abhishek:Test-0110@cluster0.0ioim2r.mongodb.net/todoListDB');
